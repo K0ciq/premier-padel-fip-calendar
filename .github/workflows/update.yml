@@ -2,19 +2,21 @@ name: Update Premier Padel iCal
 
 on:
   schedule:
-    # Runs every Sunday at midnight UTC
     - cron: '0 0 * * 0'
-  workflow_dispatch: # Allows manual trigger anytime
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
@@ -31,6 +33,5 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add premier_padel.ics
-          git status
           git diff-index --quiet HEAD || git commit -m "Auto-update Premier Padel calendar"
           git push
